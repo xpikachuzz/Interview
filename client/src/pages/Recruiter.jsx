@@ -1,7 +1,10 @@
-import React from 'react'
+import React, { useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 export const Recruiter = () => {
-  return (
-    <div>Recruiter</div>
-  )
-}
+    const params = useParams();
+
+    useEffect(() => {}, []);
+
+    return <div>Recruiter</div>;
+};
