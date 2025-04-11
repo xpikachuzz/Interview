@@ -18,35 +18,36 @@ export const Form = () => {
         );
     }
 
-
     if (error || result.error) {
         return (
-            <h1 className='text-3xl font-bold text-center'>{error || result.error.message}</h1>
-        )
+            <h1 className="text-3xl font-bold text-center">
+                {error || result.error.message}
+            </h1>
+        );
     }
 
     const { data } = result;
 
     return (
         <div className="px-10 py-10">
-            {
-                data.map(
-                    ({description, due_date, id, post_date, title}) => (
-                        <div key={id} className="flex flex-col gap-1">
-                            <h1 className="text-5xl font-bold pb-2">{title}</h1> 
-                            <span className="text-md font-medium">Post date: {post_date}</span>
-                            <span className="text-md font-medium">Due date: {due_date}</span>
-                            <p className="text-lg">{description}</p>
-                            <NavLink 
-                                className="border-[1px] w-fit px-4 py-1 font-medium mt-3 hover:cursor-pointer"
-                                to={"question/1"}
-                            >
-                                Apply
-                            </NavLink>
-                        </div>
-                    )
-                )
-            }
+            {data.map(({ description, due_date, id, post_date, title }) => (
+                <div key={id} className="flex flex-col gap-1">
+                    <h1 className="text-5xl font-bold pb-2">{title}</h1>
+                    <span className="text-md font-medium">
+                        Post date: {post_date}
+                    </span>
+                    <span className="text-md font-medium">
+                        Due date: {due_date}
+                    </span>
+                    <p className="text-lg">{description}</p>
+                    <NavLink
+                        className="border-[1px] w-fit px-4 py-1 font-medium mt-3 hover:cursor-pointer"
+                        to={"question/1"}
+                    >
+                        Apply
+                    </NavLink>
+                </div>
+            ))}
         </div>
     );
 };

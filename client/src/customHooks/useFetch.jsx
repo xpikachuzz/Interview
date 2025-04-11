@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const useFetch = (fetchCallback) => {
+const useFetch = (fetchCallback, dependencyArray) => {
     const [result, setResult] = useState();
     const [loading, setLoading] = useState("Reciving question...");
     const [error, setError] = useState(null);
@@ -19,7 +19,7 @@ const useFetch = (fetchCallback) => {
         };
 
         fetch();
-    }, []);
+    }, dependencyArray);
 
     return { result, loading, error, setLoading, setError };
 };
