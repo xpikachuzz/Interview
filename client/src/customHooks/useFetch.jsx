@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 const useFetch = (fetchCallback) => {
     const [result, setResult] = useState();
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState("Reciving question...");
     const [error, setError] = useState(null);
 
     useEffect(() => {
@@ -21,7 +21,7 @@ const useFetch = (fetchCallback) => {
         fetch();
     }, []);
 
-    return { result, loading, error };
+    return { result, loading, error, setLoading, setError };
 };
 
 export default useFetch;

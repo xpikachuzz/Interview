@@ -4,11 +4,11 @@ import { supabase } from "./createClient";
 import { Auth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
 import { Route, Routes } from "react-router-dom";
-import { Question } from "./pages/Question";
 import { Home } from "./pages/Home";
 import { Recruiter } from "./pages/Recruiter";
 import { Form } from "./pages/form/Form";
 import { Submit } from "./pages/form/Submit";
+import { Question } from "./pages/form/Question";
 
 function App() {
     const [userId, setUserId] = useState();
@@ -70,8 +70,8 @@ function App() {
                     <Route path="form/:formId">
                         <Route path="" element={<Form />}></Route>
                         <Route
-                            path="question/:id"
-                            element={<Question />}
+                            path="question/:questionId"
+                            element={<Question id={userId} />}
                         ></Route>
                         <Route path="submit" element={<Submit />}></Route>
                     </Route>
