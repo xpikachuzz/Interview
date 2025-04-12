@@ -22,14 +22,15 @@ export const Question = ({ id }) => {
         const check = async () => {
             // Check user has submitted answer for previous question
             try {
+                // check which question is the latest answer
                 const res = await supabase
                     .from("Answer")
                     .select("*")
                     .eq("form_id", formId)
                     .order("question_no", { ascending: false })
                     .limit(1);
-
-                // if hasn't answer any question
+                console.log("ALL: ", questionId, formId)
+                // if hasn't been answered then
                 if (res.data.length == 0) {
                     // must be on the first question
                     if (questionId != "1") {
@@ -37,28 +38,45 @@ export const Question = ({ id }) => {
                     }
                     return;
                 } else {
+                    // check how many questions
                     const resQuestion = await supabase
                         .from("Question")
                         .select("question_no")
                         .eq("form_id", formId)
                         .order("question_no", { ascending: false })
                         .limit(1);
-                    console.log(resQuestion);
 
+                    // check for error
+                    if (resQuestion.error) {
+                        setError(resQuestion.error.message)
+                        return
+                    }
+
+                    // defining variables
+                    const lastQuestion = resQuestion.data[0].question_no
                     const latestAnsweredQuestion = res.data[0].question_no;
                     const toAnswerQuestion = latestAnsweredQuestion + 1;
-                    // check if on the latest question
-                    if (questionId != toAnswerQuestion) {
+                    
+                    // check if all questions answered
+                    if (latestAnsweredQuestion == lastQuestion) {
+                        navigate("../submit")
+                        return
+                    }
+
+                    // check if on the latest question or not a valid question id
+                    if (questionId != toAnswerQuestion || questionId > lastQuestion) {
                         navigate("../question/" + toAnswerQuestion);
                     }
+                    setLoading(false)
                 }
             } catch (e) {
                 setError(e);
             }
         };
 
+        setLoading(true)
         check();
-    }, []);
+    }, [questionId, formId]);
 
     async function submitAnswer() {
         setLoading("Posting answer...");
@@ -97,7 +115,7 @@ export const Question = ({ id }) => {
 
         // if there isn't then show finished page
         if (nextResult.data.length == 0) {
-            navigate("../FINISH");
+            navigate("../submit");
         }
     }
 

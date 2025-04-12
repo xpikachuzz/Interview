@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { NavLink, useParams } from "react-router-dom";
+import { NavLink, Outlet, useParams } from "react-router-dom";
 import { supabase } from "../../createClient";
 import useFetch from "../../customHooks/useFetch";
 
@@ -8,6 +8,7 @@ export const Form = () => {
     const [form, setForm] = useState();
     const { result, loading, error } = useFetch(() =>
         supabase.from("Form").select("*").eq(`id`, params.formId)
+        , []
     );
 
     if (loading) {
@@ -29,7 +30,7 @@ export const Form = () => {
     const { data } = result;
 
     return (
-        <div className="px-10 py-10">
+        <div className="px-10 py-10 ">
             {data.map(({ description, due_date, id, post_date, title }) => (
                 <div key={id} className="flex flex-col gap-1">
                     <h1 className="text-5xl font-bold pb-2">{title}</h1>
