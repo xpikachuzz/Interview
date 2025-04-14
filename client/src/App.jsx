@@ -9,6 +9,7 @@ import { Recruiter } from "./pages/Recruiter";
 import { Form } from "./pages/form/Form";
 import { Submit } from "./pages/form/Submit";
 import { Question } from "./pages/form/Question";
+import { FormCreate } from "./pages/form/FormCreate";
 
 function App() {
     const [userId, setUserId] = useState();
@@ -60,12 +61,14 @@ function App() {
     }
 
     return (
-        <div className="flex justify-center items-center">
+        <div className="flex flex-col justify-center items-center">
+            <header>sadasd</header>
             <Routes>
                 <Route path="/" element={<Home />}></Route>
                 {/* Each recruiter has a unique profile */}
                 <Route path="recruiter/:id">
-                    <Route path="" element={<Recruiter />}></Route>
+                    <Route path="" element={<Recruiter userId={userId} />}></Route>
+                    <Route path="create_form" element={<FormCreate userId={userId} />}></Route>
                     {/* Form */}
                     <Route path="form/:formId">
                         <Route path="" element={<Form />}></Route>

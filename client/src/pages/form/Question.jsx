@@ -126,7 +126,7 @@ export const Question = ({ id }) => {
     if (error || result.error) {
         return (
             <h1 className="text-3xl font-bold text-center">
-                {error || result.error.message}
+                {error.message || result.error.message}
             </h1>
         );
     }
