@@ -13,5 +13,6 @@
 
 
 # Todo
-1. Editing recruiter portfolio
-2. Recruiter adding form
+1. Allow different types
+2. Allow video type
+3. Post the video to supabase.

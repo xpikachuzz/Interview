@@ -1,7 +1,8 @@
 import React, { useEffect, useRef } from "react";
 import useFetch from "../../customHooks/useFetch";
-import { NavLink, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { supabase } from "../../createClient";
+import RecordQuestion from './RecordQuestion';
 
 export const Question = ({ id }) => {
     const { formId, questionId } = useParams();
@@ -133,26 +134,35 @@ export const Question = ({ id }) => {
 
     const { data } = result;
 
+
+    return (
+        <div>
+            <RecordQuestion formId={formId} userId={id} questionId={questionId} />
+        </div>
+    )
+
     return (
         <div className="px-10 py-10 w-7xl">
-            {data.map(({ question }) => (
-                <div
-                    key={questionId}
-                    className="flex flex-col justify-start items-start gap-5"
-                >
-                    <h1 className="text-5xl font-bold pb-2">{question}</h1>
-                    <textarea
-                        ref={answerRef}
-                        className="bg-slate-100 w-3/4 p-1 max-w-4xl max-2xl:border-2 "
-                    />
-                    <button
-                        onClick={submitAnswer}
-                        className="border-[1px] w-fit px-4 py-1 font-medium mt-3 hover:cursor-pointer"
+            {
+                data.map(({ question, question_no }) => (
+                    <div
+                        key={questionId}
+                        className="flex flex-col justify-start items-start gap-5"
                     >
-                        Submit
-                    </button>
-                </div>
-            ))}
+                        <h1 className="text-5xl font-bold pb-2"><b>{question_no}. </b>{question}</h1>
+                        <textarea
+                            ref={answerRef}
+                            className="bg-slate-100 w-3/4 p-1 max-w-4xl max-2xl:border-2 "
+                        />
+                        <button
+                            onClick={submitAnswer}
+                            className="border-[1px] w-fit px-4 py-1 font-medium mt-3 hover:cursor-pointer"
+                        >
+                            Submit
+                        </button>
+                    </div>
+                ))
+            }
         </div>
     );
 };

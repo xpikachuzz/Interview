@@ -42,11 +42,11 @@ export const FormCreate = ({userId}) => {
     setQuestions(queses => queses.map((ques) => ques.id == id ? {...ques, question: e.target.value} : ques))
   }
 
-  function addQuestion() {
+  function addQuestion(type) {
     setQuestions(queses => [...queses, {
       id: uuidv4(),
       question: "Type your question here...",
-      type: "text"
+      type
       }]
     )
   }
@@ -84,14 +84,12 @@ export const FormCreate = ({userId}) => {
     }
 
     // add questions
-    const numberedQuestions = questions.map((ques, i) => ({form_id: formData[0].id, question_no: i+1, question: ques.question}))
-    console.log(numberedQuestions)
+    const numberedQuestions = questions.map((ques, i) => ({form_id: formData[0].id, question_no: i+1, question: ques.question, type: ques.type}))
     const res = await supabase
       .from("Question")
       .insert(numberedQuestions)
 
     const {error: questionError} = res
-    console.log(res)
     if (questionError) {
       setError(questionError.message)
       return
@@ -100,7 +98,7 @@ export const FormCreate = ({userId}) => {
   }
 
   return (
-    <div className="flex flex-col justify-center items-center gap-8 px-10 py-6 bg-blue-100 w-5xl max-xl:w-screen">
+    <div className="flex flex-col justify-center items-center gap-8 px-10 py-6 bg-blue-100 w-full">
       <div>
         <h1 className='text-5xl font-bold'>Form Details</h1>
         <h1 className='text-3xl font-bold mt-5'>Title</h1>
@@ -115,6 +113,7 @@ export const FormCreate = ({userId}) => {
       {
         questions.map(({id, question, type}) => (
           <div key={id} className="flex justify-between items-center gap-5 w-full rounded-md">
+            <label className='whitespace-nowrap font-medium'>Type: {type}</label>
             <input value={question} onChange={(e) => onQuestionChange(id, e)} className="p-1.5 border-2 w-full rounded-md"/>
             <button className='border-[1px] px-2 py-1 rounded-md' onClick={() => deleteQuestion(id)}>TRASH</button>
           </div>
@@ -122,7 +121,10 @@ export const FormCreate = ({userId}) => {
       }
 
       {/* Create new question */}
-      <button onClick={addQuestion} className='px-2 py-1 border-[1px] rounded-md w-fit'>Add Question</button>
+      <div className='flex gap-5'>
+        <button onClick={() => addQuestion("text")} className='px-2 py-1 border-[1px] rounded-md w-fit'>Add text Question</button>
+        <button onClick={() => addQuestion("video")} className='px-2 py-1 border-[1px] rounded-md w-fit'>Add video Question</button>
+      </div>
       <h1 className='text-xl font-semibold text-red-500'>{error}</h1>
       <button onClick={postForm} className='text-2xl font-bold px-2 py-1 border-[2px] rounded-md w-fit'>POST FORM</button>
     </div>

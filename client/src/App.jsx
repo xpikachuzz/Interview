@@ -61,8 +61,14 @@ function App() {
     }
 
     return (
-        <div className="flex flex-col justify-center items-center">
-            <header>sadasd</header>
+        <div className="flex flex-col justify-center items-center bg-blue-100 mx-auto w-5xl max-xl:w-screen">
+            <header className="px-10 flex w-full justify-between items-center bg-blue-300 py-5">
+                <div>Home</div>
+                <div className="flex gap-10">
+                    <h1>Contact</h1>
+                    <h1>Search</h1>
+                </div>
+            </header>
             <Routes>
                 <Route path="/" element={<Home />}></Route>
                 {/* Each recruiter has a unique profile */}
