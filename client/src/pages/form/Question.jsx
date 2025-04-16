@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import useFetch from "../../customHooks/useFetch";
 import { useNavigate, useParams } from "react-router-dom";
 import { supabase } from "../../createClient";
-import RecordQuestion from './RecordQuestion';
+import { AnswerForm } from "./answer/AnswerForm";
 
 export const Question = ({ id }) => {
     const { formId, questionId } = useParams();
@@ -79,46 +79,7 @@ export const Question = ({ id }) => {
         check();
     }, [questionId, formId]);
 
-    async function submitAnswer() {
-        setLoading("Posting answer...");
-        // post answer to supaabse
-        const result = await supabase.from("Answer").insert({
-            question_no: questionId,
-            form_id: formId,
-            answer: answerRef.current.value,
-            user_id: id,
-        });
 
-        setLoading();
-        if (result.error) {
-            setError("Can't send answer to database. Try again later.");
-            return;
-        }
-        const nextQuestionid = parseInt(questionId) + 1;
-        // check if there is a next question
-        const nextResult = await supabase
-            .from("Question")
-            .select("*")
-            .eq("question_no", nextQuestionid)
-            .eq("form_id", formId);
-
-        if (nextResult.error) {
-            setError(
-                "Can't check if there is a next question. Try again later."
-            );
-            return;
-        }
-
-        // if there is a next question then redirect
-        if (nextResult.data.length != 0) {
-            navigate("../question/" + nextQuestionid);
-        }
-
-        // if there isn't then show finished page
-        if (nextResult.data.length == 0) {
-            navigate("../submit");
-        }
-    }
 
     if (loading) {
         return <h1 className="text-3xl font-bold text-center">Loading...</h1>;
@@ -134,33 +95,52 @@ export const Question = ({ id }) => {
 
     const { data } = result;
 
+    async function nextQuestionNav () {
+        const nextQuestionid = parseInt(questionId) + 1;
+        // check if there is a next question
+        const nextResult = await supabase
+            .from("Question")
+            .select("*")
+            .eq("question_no", nextQuestionid)
+            .eq("form_id", formId);
+    
+        if (nextResult.error) {
+            setError(
+                "Can't check if there is a next question. Try again later."
+            );
+            setLoading(false)
+            return;
+        }
+    
+        // if there is a next question then redirect
+        if (nextResult.data.length != 0) {
+            navigate("../question/" + nextQuestionid);
+        }
+    
+        // if there isn't then show finished page
+        if (nextResult.data.length == 0) {
+            navigate("../submit");
+        }
+        setLoading(false)
+    }
 
-    return (
-        <div>
-            <RecordQuestion formId={formId} userId={id} questionId={questionId} />
-        </div>
-    )
 
     return (
         <div className="px-10 py-10 w-7xl">
             {
-                data.map(({ question, question_no }) => (
-                    <div
+                data.map(({ question, question_no, type, form_id }) => (
+                    <AnswerForm 
                         key={questionId}
-                        className="flex flex-col justify-start items-start gap-5"
-                    >
-                        <h1 className="text-5xl font-bold pb-2"><b>{question_no}. </b>{question}</h1>
-                        <textarea
-                            ref={answerRef}
-                            className="bg-slate-100 w-3/4 p-1 max-w-4xl max-2xl:border-2 "
-                        />
-                        <button
-                            onClick={submitAnswer}
-                            className="border-[1px] w-fit px-4 py-1 font-medium mt-3 hover:cursor-pointer"
-                        >
-                            Submit
-                        </button>
-                    </div>
+                        question={question} 
+                        question_no={question_no} 
+                        type={type} 
+                        form_id={form_id} 
+                        questionId={questionId} 
+                        setLoading={setLoading}
+                        setError={setError}
+                        userId={id}
+                        nextQuestionNav={nextQuestionNav}
+                    />
                 ))
             }
         </div>
