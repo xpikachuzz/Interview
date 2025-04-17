@@ -59,7 +59,7 @@ export const VideoAnswer = ({ question, question_no, form_id, setLoading, setErr
     }
   };
 
-  console.log(question_no)
+
   return (
     <div>
       <h1 className='text-3xl font-bold ml-4'> <span>{question_no}.</span> {question}</h1>

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import useFetch from "../../customHooks/useFetch";
 import { useNavigate, useParams } from "react-router-dom";
 import { supabase } from "../../createClient";
@@ -8,6 +8,7 @@ export const Question = ({ id }) => {
     const { formId, questionId } = useParams();
     const answerRef = useRef();
     const navigate = useNavigate();
+    let [vid, setVid] = useState("sctpzscqheexsozksnaj.supabase.co/storage/v1/object/public/videos/18d0bf5c-9e3d-4dd8-962a-d73f9044ef45/1/3020fa51-27a1-4bbc-a46f-540c8384b2d3.webm")
 
     const { result, error, loading, setLoading, setError } = useFetch(
         () =>
@@ -24,13 +25,20 @@ export const Question = ({ id }) => {
             // Check user has submitted answer for previous question
             try {
                 // check which question is the latest answer
-                const res = await supabase
-                    .from("Answer")
-                    .select("*")
-                    .eq("form_id", formId)
-                    .order("question_no", { ascending: false })
-                    .limit(1);
-                console.log("ALL: ", questionId, formId)
+                let res = (
+                    await supabase
+                        .from("Answer")
+                        .select("*")
+                        .eq("form_id", formId)
+                        .order("question_no", { ascending: false })
+                        .limit(1)
+                )
+
+
+                console.log(`${formId}/${questionId}/${id}.webm`)
+                console.log(res)
+                setVid(res.data)
+
                 // if hasn't been answered then
                 if (res.data.length == 0) {
                     // must be on the first question
@@ -71,6 +79,7 @@ export const Question = ({ id }) => {
                     setLoading(false)
                 }
             } catch (e) {
+                console.log(e)
                 setError(e);
             }
         };
@@ -126,7 +135,7 @@ export const Question = ({ id }) => {
 
 
     return (
-        <div className="px-10 py-10 w-7xl">
+        <div className="px-10 py-10 w-full">
             {
                 data.map(({ question, question_no, type, form_id }) => (
                     <AnswerForm 

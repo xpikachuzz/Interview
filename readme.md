@@ -15,4 +15,6 @@
 # Todo
 1. Allow different types
 2. Allow video type
+   1. Allow playback after "stop recording".
+   2. 
 3. Post the video to supabase.

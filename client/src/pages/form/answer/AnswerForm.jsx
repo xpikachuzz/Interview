@@ -1,6 +1,6 @@
 import React from 'react'
 import { TextAnswer } from './TextAnswer'
-import { VideoAnswer } from './VideoAnswer';
+import { VideoAnswer } from './VideoAnswer Copy';
 
 export const AnswerForm = ({ question, question_no, type, form_id, setLoading, setError, userId, nextQuestionNav }) => {
 
