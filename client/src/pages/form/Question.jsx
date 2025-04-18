@@ -2,13 +2,11 @@ import React, { useEffect, useRef, useState } from "react";
 import useFetch from "../../customHooks/useFetch";
 import { useNavigate, useParams } from "react-router-dom";
 import { supabase } from "../../createClient";
-import { AnswerForm } from "./answer/AnswerForm";
+import { AnswerForm } from "./question/AnswerForm";
 
-export const Question = ({ id }) => {
+export const Question = ({ id, email }) => {
     const { formId, questionId } = useParams();
-    const answerRef = useRef();
     const navigate = useNavigate();
-    let [vid, setVid] = useState("sctpzscqheexsozksnaj.supabase.co/storage/v1/object/public/videos/18d0bf5c-9e3d-4dd8-962a-d73f9044ef45/1/3020fa51-27a1-4bbc-a46f-540c8384b2d3.webm")
 
     const { result, error, loading, setLoading, setError } = useFetch(
         () =>
@@ -30,14 +28,10 @@ export const Question = ({ id }) => {
                         .from("Answer")
                         .select("*")
                         .eq("form_id", formId)
+                        .eq("user_id", id)
                         .order("question_no", { ascending: false })
                         .limit(1)
                 )
-
-
-                console.log(`${formId}/${questionId}/${id}.webm`)
-                console.log(res)
-                setVid(res.data)
 
                 // if hasn't been answered then
                 if (res.data.length == 0) {
@@ -149,6 +143,7 @@ export const Question = ({ id }) => {
                         setError={setError}
                         userId={id}
                         nextQuestionNav={nextQuestionNav}
+                        email={email}
                     />
                 ))
             }

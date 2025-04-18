@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { supabase } from '../../../createClient';
 
-export const VideoAnswer = ({ question, question_no, form_id, setLoading, setError, userId, nextQuestionNav }) => {
+export const VideoAnswer = ({ question, question_no, form_id, setLoading, setError, userId, nextQuestionNav, email }) => {
   const videoRef = useRef(null);
   const mediaRecorderRef = useRef(null);
   const [recordedChunks, setRecordedChunks] = useState([]);
@@ -64,19 +64,18 @@ export const VideoAnswer = ({ question, question_no, form_id, setLoading, setErr
       .from('videos')
       .upload(`${form_id}/${question_no}/${userId}`, file);
 
-    
-    
-
     if (error) {
       setRecording(false)
       setFinRecording(false)
       setError(error.message)
+      console.log("ERROR", error)
     } else {
-      const result = await supabase.from("Answer").insert({
+      const res = await supabase.from("Answer").insert({
         question_no: question_no,
         form_id: form_id,
         answer: "",
         user_id: userId,
+        user_email: email
       });
 
       // Move to the next question

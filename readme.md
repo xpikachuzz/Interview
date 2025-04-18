@@ -16,5 +16,11 @@
 1. Allow different types
 2. Allow video type
    1. Allow playback after "stop recording".
-   2. 
 3. Post the video to supabase.
+4. Answer of submited forms
+
+
+# TO FIX
+1. Remove try catch blocks for supabase calls. 
+2. Use transactions in supabase for insertion
+3. 

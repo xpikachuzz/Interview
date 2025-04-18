@@ -2,10 +2,9 @@ import React, { useRef } from 'react'
 import { supabase } from '../../../createClient';
 import { useNavigate } from 'react-router-dom';
 
-export const TextAnswer = ({ question, question_no, form_id, setLoading, setError, userId, nextQuestionNav }) => {
+export const TextAnswer = ({ question, question_no, form_id, setLoading, setError, userId, nextQuestionNav, email }) => {
 
   const answerRef = useRef()
-  const navigate = useNavigate()
 
 
   async function submitAnswer() {
@@ -16,6 +15,7 @@ export const TextAnswer = ({ question, question_no, form_id, setLoading, setErro
         form_id: form_id,
         answer: answerRef.current.value,
         user_id: userId,
+        user_email: email
     });
 
     setLoading();

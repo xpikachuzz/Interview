@@ -10,6 +10,8 @@ import { Form } from "./pages/form/Form";
 import { Submit } from "./pages/form/Submit";
 import { Question } from "./pages/form/Question";
 import { FormCreate } from "./pages/form/FormCreate";
+import { AnswerOverlay } from "./pages/form/answer/AnswerOverlay";
+import { UserAnswer } from "./pages/form/answer/UserAnswer";
 
 function App() {
     const [userId, setUserId] = useState();
@@ -28,7 +30,7 @@ function App() {
             } = await supabase.auth.getUser();
             if (user != null) {
                 setIsLoggedIn(true);
-                setUserId(user.id);
+                setUserId({id: user.id, email: user.email});
             } else {
                 setIsLoggedIn(false);
                 setUserId("");
@@ -73,15 +75,18 @@ function App() {
                 <Route path="/" element={<Home />}></Route>
                 {/* Each recruiter has a unique profile */}
                 <Route path="recruiter/:id">
-                    <Route path="" element={<Recruiter userId={userId} />}></Route>
-                    <Route path="create_form" element={<FormCreate userId={userId} />}></Route>
+                    <Route path="" element={<Recruiter userId={userId.id} />}></Route>
+                    <Route path="create_form" element={<FormCreate userId={userId.id} />}></Route>
                     {/* Form */}
                     <Route path="form/:formId">
                         <Route path="" element={<Form />}></Route>
                         <Route
                             path="question/:questionId"
-                            element={<Question id={userId} />}
+                            element={<Question id={userId.id} email={userId.email} />}
                         ></Route>
+                        <Route path="user" element={<AnswerOverlay userId={userId.id} /> } >
+                            <Route path=":userId" element={<UserAnswer userId={userId.id} />}></Route>
+                        </Route>
                         <Route path="submit" element={<Submit />}></Route>
                     </Route>
                 </Route>
