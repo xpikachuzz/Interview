@@ -115,7 +115,7 @@ export const VideoAnswer = ({ question, question_no, form_id, setLoading, setErr
 
   return (
     <div>
-      <h1 className='font-bold ml-4 text-5xl text-slate-100 '> <span>{question_no}.</span> {question}</h1>
+      <h1 className='font-bold ml-4 text-5xl text-slate-100 '> <span>Question {question_no}.</span> {question}</h1>
       <video className='my-5' ref={videoRef} autoPlay muted style={{ width: '100%', maxWidth: 600 }} />
       <div className='my-10 flex gap-5'>
         <button className="border-[2px] px-3 py-1 text-slate-100 text-2xl font-bold hover:cursor-pointer" onClick={startCamera}>Start Camera / Give Permission</button>

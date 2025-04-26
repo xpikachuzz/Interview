@@ -20,7 +20,16 @@ import { Loading } from "./element/Loading";
 
 gsap.registerPlugin(Draggable) 
 
-
+const customTheme = {
+    default: {
+      colors: {
+        brand: 'hsl(153 60.0% 53.0%)',
+        brandAccent: 'hsl(154 54.8% 45.1%)',
+        brandButtonText: 'white',
+        // ..
+      },
+    },
+}  
 
 
 function App() {
@@ -64,6 +73,7 @@ function App() {
                 supabaseClient={supabase}
                 appearance={{ theme: ThemeSupa }}
                 providers={[]}
+                theme="dark"
             />
         );
     }

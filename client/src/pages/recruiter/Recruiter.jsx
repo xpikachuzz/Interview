@@ -125,7 +125,7 @@ export const Recruiter = ({userId}) => {
             </div>
             <div className="flex flex-col gap-10 mt-34 font-semibold text-slate-100">
                 <div className="flex max-sm:flex-col max-sm:gap-6 justify-between items-center ">
-                    <h1 className="text-5xl font-extrabold">Company's Jobs</h1>
+                    <h1 className="text-5xl font-extrabold">Company's Jobs:</h1>
                     { isMyProfile && <NavLink className="border-[1px] px-2 py-1 rounded-md hover:cursor-pointer text-center" to={"create_form"}>Create new</NavLink>}
                 </div>
                 {
@@ -133,7 +133,7 @@ export const Recruiter = ({userId}) => {
                         ({id, title, due_date}) => (
                             <NavLink 
                                 to={`form/${id}`}
-                                className="flex justify-between items-center border-y-[1px] px-8 py-2 hover:cursor-pointer" 
+                                className="flex justify-between items-center border-y-[1px] px-8 py-2 hover:cursor-pointer hover:shadow-2xl hover:bg-blue-900" 
                                 key={id}
                             >
                                 <h1 className="text-3xl font-bold">{title}</h1>
