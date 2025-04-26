@@ -7,7 +7,7 @@ export const AnswerForm = ({ question, question_no, type, form_id, setLoading, s
   if (type == "text") {
     return (
       <div
-      className="flex flex-col justify-start items-start gap-5"
+      className="flex flex-col w-11/12 justify-center items-center gap-5 text-slate-100"
       >
         <TextAnswer question={question} question_no={question_no} form_id={form_id} setLoading={setLoading} setError={setError} userId={userId} nextQuestionNav={nextQuestionNav} email={email} />
       </div>

@@ -23,4 +23,13 @@
 # TO FIX
 1. Remove try catch blocks for supabase calls. 
 2. Use transactions in supabase for insertion
-3. 
+
+
+
+# Design
+1. Home page
+   1. Hero
+   2. Section 2
+   3. Section 3
+2. 
+

@@ -31,11 +31,11 @@ export const TextAnswer = ({ question, question_no, form_id, setLoading, setErro
 
   
   return (
-    <>
-      <h1 className="text-5xl font-bold pb-2"><b>{question_no}. </b>{question}</h1>
+    <div className='w-full flex flex-col items-center'>
+      <h1 className="text-5xl w-full font-bold pb-2"><b>{question_no}. </b>{question}</h1>
       <textarea
           ref={answerRef}
-          className="bg-slate-100 w-3/4 p-1 max-w-4xl max-2xl:border-2 "
+          className="bg-slate-500 border-[1px] border-slate-300 w-full p-1.5  max-2xl:border-2 mt-5"
       />
       <button
           onClick={submitAnswer}
@@ -43,6 +43,6 @@ export const TextAnswer = ({ question, question_no, form_id, setLoading, setErro
       >
           Submit
       </button>
-    </>
+    </div>
   )
 }

@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { supabase } from '../../../createClient';
 import useFetch from '../../../customHooks/useFetch';
 import { useFormContext } from '../../../context/formContext';
+import { Loading } from '../../../element/Loading';
 
 export const UserAnswer = ({userId}) => {
   const params = useParams()
@@ -56,11 +57,7 @@ export const UserAnswer = ({userId}) => {
 
 
   if (loading) {
-      return (
-          <div>
-              <h1>LOADING...</h1>
-          </div>
-      );
+      return <Loading />
   }
 
   if (error || result.error) {
@@ -71,17 +68,24 @@ export const UserAnswer = ({userId}) => {
       );
   }
 
+  let email = "Null"
+  // get email
+  if (result.data.length) {
+    email = result.data[0].user_email
+  }
+
   return (
-    <div>
+    <div className='text-3xl font-bold my-10 flex flex-col gap-5'>
+      <h1 className=''>Answer of: {email}</h1>
+      <hr className='mt-10'/>
       {
         result.data.map((row) => (
-          <div key={row.question_no}>
-            <h1>Question: {row.question_no}</h1>
-            <h1>Question: {row.question}</h1>
+          <div key={row.question_no} className='mb-2'>
+            <h1 className='mb-2'>{row.question_no}. {row.question}</h1>
             {
               // answer
               (row.type == "text") ? (
-                <h1>Answer: {row.answer}</h1>
+                <p className='text-xl font-semibold'>Answer: {row.answer}</p>
               ) : (
                 <video width="100%" controls>
                   <source src={row.url} type="video/mp4" />
@@ -89,6 +93,7 @@ export const UserAnswer = ({userId}) => {
                 </video>
               )
             }
+            <hr className='mt-10'/>
           </div>
         ))
       }

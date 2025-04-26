@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import { NavLink, Outlet, useParams } from "react-router-dom";
 import { supabase } from "../../createClient";
 import useFetch from "../../customHooks/useFetch";
+import { Loading } from "../../element/Loading";
+import { Countdown } from "../../element/Countdown";
 
-export const Form = () => {
+export const Form = ({userId}) => {
     const params = useParams();
     const [form, setForm] = useState();
     const { result, loading, error } = useFetch(() =>
@@ -11,12 +13,8 @@ export const Form = () => {
         , []
     );
 
-    if (loading) {
-        return (
-            <div>
-                <h1>LOADING...</h1>
-            </div>
-        );
+      if (loading) {
+        return <Loading />
     }
 
     if (error || result.error) {
@@ -29,11 +27,12 @@ export const Form = () => {
 
     const { data } = result;
 
+
     return (
-        <div className="px-10 py-10 ">
+        <div className="px-10 py-[170px] max-sm:py-[240px] text-slate-100">
             {data.map(({ description, due_date, id, post_date, title }) => (
                 <div key={id} className="flex flex-col gap-1">
-                    <h1 className="text-5xl font-bold pb-2">{title}</h1>
+                    <h1 className="text-5xl font-extrabold pb-2">{title}</h1>
                     <span className="text-md font-medium">
                         Post date: {post_date}
                     </span>
@@ -41,12 +40,24 @@ export const Form = () => {
                         Due date: {due_date}
                     </span>
                     <p className="text-lg">{description}</p>
-                    <NavLink
-                        className="border-[1px] w-fit px-4 py-1 font-medium mt-3 hover:cursor-pointer"
-                        to={"question/1"}
-                    >
-                        Apply
-                    </NavLink>
+                    <div className="flex gap-5 justify-center items-center">
+                        <NavLink
+                            className="border-[1px] w-fit px-4 py-1 font-medium mt-3 hover:cursor-pointer"
+                            to={"question/1"}
+                        >
+                            Apply
+                        </NavLink>
+                        
+                        {
+                            (params.id == userId) &&
+                                <NavLink
+                                    className="border-[1px] w-fit px-4 py-1 font-medium mt-3 hover:cursor-pointer"
+                                    to={"user"}
+                                >
+                                    Answers
+                                </NavLink>
+                        }
+                    </div>
                 </div>
             ))}
         </div>

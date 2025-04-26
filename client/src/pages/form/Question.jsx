@@ -3,6 +3,7 @@ import useFetch from "../../customHooks/useFetch";
 import { useNavigate, useParams } from "react-router-dom";
 import { supabase } from "../../createClient";
 import { AnswerForm } from "./question/AnswerForm";
+import { Loading } from "../../element/Loading";
 
 export const Question = ({ id, email }) => {
     const { formId, questionId } = useParams();
@@ -85,7 +86,7 @@ export const Question = ({ id, email }) => {
 
 
     if (loading) {
-        return <h1 className="text-3xl font-bold text-center">Loading...</h1>;
+        return <Loading />
     }
 
     if (error || result.error) {
@@ -129,7 +130,7 @@ export const Question = ({ id, email }) => {
 
 
     return (
-        <div className="px-10 py-10 w-full">
+        <div className="px-10 pt-40 w-screen flex items-center justify-center">
             {
                 data.map(({ question, question_no, type, form_id }) => (
                     <AnswerForm 

@@ -3,6 +3,7 @@ import { Link, Outlet, useNavigate, useParams } from 'react-router-dom'
 import { supabase } from '../../../createClient'
 import useFetch from '../../../customHooks/useFetch'
 import { FormContext } from './../../../context/formContext';
+import { Loading } from '../../../element/Loading';
 
 export const AnswerOverlay = ({userId}) => {
   const params = useParams()
@@ -43,11 +44,7 @@ export const AnswerOverlay = ({userId}) => {
 
 
   if (loading || loadingForm) {
-      return (
-          <div>
-              <h1>LOADING...</h1>
-          </div>
-      );
+      return <Loading/>
   }
 
   if (error || result.error || errorForm || resultForm.error) {
@@ -68,18 +65,27 @@ export const AnswerOverlay = ({userId}) => {
 
 
   return (
-    <div className='bg-blue-100 w-full flex flex-col items-center'>
-      {/* The completed responses */}
-        {result.data.map(({user_id, user_email}) => (
-          <Link to={user_id} key={user_id} className='flex justify-between px-10 py-2 border-[1px] w-full bg-blue-200'>
-            <h1>{user_id}</h1>
-            <h1>{user_email}</h1>
-          </Link>
-        ))
-      }
-      <FormContext.Provider value={{resultForm}}>
-        <Outlet />
-      </FormContext.Provider>
+    <div className='w-screen flex flex-col items-center mt-30 max-sm:mt-60 text-slate-100'>
+      <div className='w-11/12'>
+        <h1 className='text-7xl font-bold mb-10'>
+          USER RESPONSES
+        </h1>
+        {/* The completed responses */}
+          <div className='flex w-full justify-between px-10 gap-10 font-bold text-xl mb-2'>
+            <h1>User ID</h1>
+            <h1>Email</h1>
+          </div>
+          {result.data.map(({user_id, user_email}) => (
+            <Link to={user_id} key={user_id} className='flex gap-10 justify-between px-10 py-2 border-t-[1px] text-lg border-b-[0.1px] w-full '>
+              <h1 className='text-wrap'>{user_id}qegqg</h1>
+              <h1 className='break-all'>{user_email}</h1>
+            </Link>
+          ))
+        }
+        <FormContext.Provider value={{resultForm}}>
+          <Outlet />
+        </FormContext.Provider>
+      </div>
     </div>
   )
 }
